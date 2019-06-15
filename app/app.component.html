@@ -1,0 +1,31 @@
+<ActionBar title="To-do App" class="action-bar">
+  <ActionItem text="Add" ios.position="right" (tap)="addTask()"></ActionItem>
+</ActionBar>
+<StackLayout sdkExampleTitle sdkToggleNavButton>
+  <GridLayout rows="auto *">
+    <SearchBar row="0" hint="Search" [text]="searchText" (submit)="onSearch($event)" (clear)="onClearSearch($event)"></SearchBar>
+    <RadListView row="1" class="list-group" [items]="tasks | filterPipe:searchText" (itemTap)="onItemTap($event)"
+         swipeActions="true"
+         selectionBehavior="None"
+         itemSwipeProgressEnded="onSwipeCellFinished"
+         itemSwipeProgressStarted="onSwipeCellStarted"
+         itemSwipeProgressChanged="onSwipeCellProgressChanged"
+         itemSwiping="onItemSwiping">
+      <ng-template tkListItemTemplate let-task="item">
+        <GridLayout class="list-group-item">
+          <Label [text]="task.text" [class.completed]="task.completed"></Label>
+        </GridLayout>
+      </ng-template>
+      <RadListView.itemSwipeTemplate>
+        <GridLayout columns="auto, *, auto" backgroundColor="White">
+          <StackLayout col="0" class="save-btn" tap="onLeftSwipe" orientation="horizontal">
+            <Label text="Save" verticalAlignment="center" horizontalAlignment="center"></Label>
+          </StackLayout>
+          <StackLayout col="2" class="delete-btn" tap="onRightSwipe" orientation="horizontal" style="background-color: red;" paddingLeft="16">
+            <Label text="Delete" verticalAlignment="center" horizontalAlignment="center"></Label>
+          </StackLayout>
+        </GridLayout>
+      </RadListView.itemSwipeTemplate>
+    </RadListView>
+  </GridLayout>
+</StackLayout>
